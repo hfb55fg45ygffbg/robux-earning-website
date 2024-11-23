@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h2>Login to Your Account</h2>
+        <form action="/auth/login" method="POST">
+            <input type="text" name="roblox_username" placeholder="Roblox Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="signup.html">Sign up here</a>.</p>
+    </header>
+</body>
+</html>
+
+<script>
+    async function loginUser(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const response = await fetch('http://localhost:3000/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            alert('Login successful!');
+            console.log(data.user); // You can redirect to the dashboard here
+        } else {
+            alert(data.error || 'Login failed.');
+        }
+    }
+</script>
